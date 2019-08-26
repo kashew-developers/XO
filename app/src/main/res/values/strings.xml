@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="app_name">X &amp; O</string>
+
+    <string name="heading">X/O player\'s chance</string>
+    <string name="blank"> </string>
+
+    <string name="x">X</string>
+    <string name="and">&amp;</string>
+    <string name="o">O</string>
+    <string name="o_color">#6D6B6B</string>
+    <string name="x_color">#ff0000</string>
+    <string name="x_chance">X Player\'s chance</string>
+    <string name="o_chance">O Player\'s chance</string>
+
+    <string name="reset">Reset</string>
+    <string name="your_chance">Your Chance</string>
+    <string name="computer_chance">Computer\'s Chance</string>
+
+    <string name="singlePlayer">Single Player</string>
+    <string name="multiPlayer">Multi Player</string>
+
+</resources>

@@ -10,19 +10,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GamePlayActivity extends Activity {
 
     //// For X player = true, for O player = false
-    private boolean player = true;
+    private boolean playerXChance = true;
 
-    private boolean singlePlayer;
-    private int x_won = 0, o_won = 0;
+    private boolean singlePlayerMode;
+    private int xVictoryCount = 0, oVictoryCount = 0;
 
     //// Moves played
-    private int moves = 0;
+    private int movesPlayed = 0;
 
     //// Grid Data - Stores all moves made by player
-    private int[][] gridData = new int[3][3];
+    private int[][] board = new int[3][3];
 
 
     private boolean backPressed = false;
@@ -40,18 +43,13 @@ public class GamePlayActivity extends Activity {
 
         //// Change heading according to the current players chance
         //// if player (true), its X's chance, else its O's chance
-        if (player) {
-            if (singlePlayer)
-                HEADING.setText(R.string.your_chance);
-            else
-                HEADING.setText(R.string.x_chance);
+        if (playerXChance) {
+            HEADING.setText(singlePlayerMode ? R.string.your_chance : R.string.x_chance);
         } else {
-            if (singlePlayer)
-                HEADING.setText(R.string.computer_chance);
-            else
-                HEADING.setText(R.string.o_chance);
+            HEADING.setText(singlePlayerMode ? R.string.computer_chance : R.string.o_chance);
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +72,18 @@ public class GamePlayActivity extends Activity {
 
 
         //// Get Game Mode
-        singlePlayer = getIntent().getBooleanExtra("singlePlayer", false);
+        singlePlayerMode = getIntent().getBooleanExtra("singlePlayer", false);
 
 
         changeHeading();
 
 
-        if (singlePlayer) {
+        if (singlePlayerMode) {
 
-            //// if singlePlayer = true, generate a random number (0 or 1)
+            //// if singlePlayerMode = true, generate a random number (0 or 1)
             //// if random number == 0, computer gets 1st chance
             if ((int) (Math.random() * 2) == 0) {
-                player = false;
+                playerXChance = false;
                 changeHeading();
                 computerChance();
             }
@@ -110,16 +108,16 @@ public class GamePlayActivity extends Activity {
     public void makeMove(TextView block, int r, int c) {
 
         //// Increment Moves
-        moves++;
+        movesPlayed++;
 
         //// Disable Block
         block.setEnabled(false);
 
 
         //// Set block Text & Color
-        //// if player (true), X made a move
+        //// if playerXChance (true), X made a move
         //// else O made a move
-        if (player) {
+        if (playerXChance) {
             block.setText(R.string.x);
             block.setTextColor(Color.parseColor(getString(R.string.x_color)));
         } else {
@@ -128,68 +126,76 @@ public class GamePlayActivity extends Activity {
         }
 
 
-        //// Store move made by player to gridData
-        //// Set Matrix value, Player X = 1, Player Y = 2
-        gridData[r][c] = player ? 1 : 2;
+        //// Store move made by player to board matrix
+        //// Set Matrix value, Player X = 1, Player Y = 2, Empty Block = 0
+        board[r][c] = playerXChance ? 1 : 2;
 
 
         //// Change Player
-        player = !player;
+        playerXChance = !playerXChance;
 
 
         //// Change Heading
         changeHeading();
 
 
-        //// check gameState, if game is not over
-        //// check game mode, if singlePlayer = true
-        //// check current player, if player = false
+        //// evaluate game & save result
+        //// if result == -1, continue game
+        //// if result == 0, draw
+        //// if result == 1, player X won
+        //// if result == 2, player Y won
+        //// check game mode, if singlePlayerMode = true
+        //// check current player, if playerXChance = false
         //// its computer's chance
-        if (!gameState()) {
-            if (singlePlayer && !player) {
+        int result = evaluate(board, true);
+        if (result == -1) {
+            if (singlePlayerMode && !playerXChance) {
                 computerChance();
             }
+        } else {
+            gameOver(result);
         }
-
     }
 
 
-    public boolean gameState() {
+    public int evaluate(int[][] board, boolean cut) {
 
         //// Check Rows
         for (int i = 0; i < 3; i++) {
-            if (gridData[i][0] != 0 && equals(gridData[i][0], gridData[i][1], gridData[i][2])) {
-                makeCuts(3 * i + 0, 3 * i + 1, 3 * i + 2, "row");
-                return gameOver(gridData[i][0]);
+            if (board[i][0] != 0 && equals(board[i][0], board[i][1], board[i][2])) {
+                if (cut) makeCuts(3 * i, 3 * i + 1, 3 * i + 2, "row");
+                return board[i][0];
             }
         }
 
         //// Check Columns
         for (int i = 0; i < 3; i++) {
-            if (gridData[0][i] != 0 && equals(gridData[0][i], gridData[1][i], gridData[2][i])) {
-                makeCuts(3 * 0 + i, 3 * 1 + i, 3 * 2 + i, "column");
-                return gameOver(gridData[0][i]);
+            if (board[0][i] != 0 && equals(board[0][i], board[1][i], board[2][i])) {
+                if (cut) makeCuts(i, 3 + i, 6 + i, "column");
+                return board[0][i];
             }
-
         }
 
 
         //// Check Diagonals
-        if (gridData[0][0] != 0 && equals(gridData[0][0], gridData[1][1], gridData[2][2])) {
-            makeCuts(3 * 0 + 0, 3 * 1 + 1, 3 * 2 + 2, "diagonalPrimary");
-            return gameOver(gridData[0][0]);
-        } else if (gridData[0][2] != 0 && equals(gridData[0][2], gridData[1][1], gridData[2][0])) {
-            makeCuts(3 * 0 + 2, 3 * 1 + 1, 3 * 2 + 0, "diagonalSecondary");
-            return gameOver(gridData[0][2]);
-        } else if (moves == 9)        // Tie Game
-            return gameOver(3);
+        if (board[0][0] != 0 && equals(board[0][0], board[1][1], board[2][2])) {
+            if (cut) makeCuts(0, 4, 8, "diagonalPrimary");
+            return board[0][0];
+        } else if (board[0][2] != 0 && equals(board[0][2], board[1][1], board[2][0])) {
+            if (cut) makeCuts(2, 4, 6, "diagonalSecondary");
+            return board[0][2];
+        }
 
-        return false;
+        //// Draw Game
+        if (movesPlayed == 9)
+            return 0;
+
+        return -1;
 
     }
 
 
-    public boolean gameOver(int action) {
+    public void gameOver(int action) {
 
         //// This method is called when the game is over
         //// Either a player wins, or all the blocks are filled
@@ -201,28 +207,21 @@ public class GamePlayActivity extends Activity {
 
         //// if action == 1, player X won
         //// if action == 2, player O won
-        //// else all blocks are filled, Tie game
+        //// else all blocks are filled, Draw game
         if (action == 1) {
-            if (singlePlayer)
-                HEADING.setText("You won the game");
-            else
-                HEADING.setText("Player \"X\" won the game");
-            x_won++;
+            HEADING.setText(singlePlayerMode ? "You won the game" : "Player \"X\" won the game");
+            xVictoryCount++;
         } else if (action == 2) {
-            if (singlePlayer)
-                HEADING.setText("Computer won the game");
-            else
-                HEADING.setText("Player \"O\" won the game");
-            o_won++;
+            HEADING.setText(singlePlayerMode ? "Computer won the game" : "Player \"O\" won the game");
+            oVictoryCount++;
         } else if (action == 3)
             HEADING.setText("Tie Game");
 
-        if (singlePlayer)
-            SCORE.setText("Score\nYou : " + x_won + "\nComputer : " + o_won);
+        if (singlePlayerMode)
+            SCORE.setText("Score\nYou : " + xVictoryCount + "\nComputer : " + oVictoryCount);
         else
-            SCORE.setText("Score\nPlayer X : " + x_won + "\nPlayer O : " + o_won);
+            SCORE.setText("Score\nPlayer X : " + xVictoryCount + "\nPlayer O : " + oVictoryCount);
 
-        return true;
     }
 
 
@@ -288,9 +287,9 @@ public class GamePlayActivity extends Activity {
     public void reset(View v) {
 
         //// Set initial values
-        player = true;
-        moves = 0;
-        gridData = new int[3][3];
+        playerXChance = true;
+        movesPlayed = 0;
+        board = new int[3][3];
 
 
         //// Show Heading
@@ -304,12 +303,12 @@ public class GamePlayActivity extends Activity {
             block.setForeground(null);
         }
 
-        if (singlePlayer) {
+        if (singlePlayerMode) {
 
             //// if singlePlayer = true, generate a random number (0 or 1)
             //// if random number == 0, computer gets 1st chance
             if ((int) (Math.random() * 2) == 0) {
-                player = false;
+                playerXChance = false;
                 changeHeading();
                 computerChance();
             }
@@ -328,8 +327,60 @@ public class GamePlayActivity extends Activity {
     }
 
 
-    public void computerChance() {
+    public ArrayList<Integer> minimax(int board[][], int depth, boolean curPlayer) {
 
+        int result = evaluate(board, false);
+
+        if (result != -1) {
+            int ret;
+            if (result == 0) ret = 0;
+            else ret = ((result == 1) == playerXChance) ? 1 : -1;
+            return new ArrayList<>(Arrays.asList(ret, depth - 1, -1));
+        }
+
+        int[][] tempBoard = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            System.arraycopy(board[i], 0, tempBoard[i], 0, 3);
+        }
+
+        ArrayList<Integer> answer = new ArrayList<>();
+        answer.add(((depth & 1) == 0) ? Integer.MAX_VALUE : Integer.MIN_VALUE);
+        answer.add(-1);
+        answer.add(-1);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (tempBoard[i][j] == 0) {
+
+                    tempBoard[i][j] = curPlayer ? 1 : 2;
+                    movesPlayed++;
+
+                    ArrayList<Integer> temp = minimax(tempBoard, depth + 1, !curPlayer);
+                    if (temp.get(2) == -1) temp.set(2, 3 * i + j);
+
+                    if ((depth & 1) == 0) {
+                        if (temp.get(0) < answer.get(0)) answer = temp;
+                        else if (temp.get(0).equals(answer.get(0)) && temp.get(1) < answer.get(1))
+                            answer = temp;
+                    } else {
+                        if (temp.get(0) > answer.get(0)) answer = temp;
+                        else if (temp.get(0).equals(answer.get(0)) && temp.get(1) < answer.get(1))
+                            answer = temp;
+                    }
+
+                    tempBoard[i][j] = 0;
+                    movesPlayed--;
+
+                }
+            }
+        }
+
+        return answer;
+
+    }
+
+
+    public void computerChance() {
 
         disableAllBlocks();
         RESET.setEnabled(false);
@@ -337,14 +388,16 @@ public class GamePlayActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                int temp, row, column;
 
-                do {
-                    temp = (int) (Math.random() * 9);
-                    row = temp / 3;
-                    column = temp % 3;
+                int row, column;
 
-                } while (gridData[row][column] != 0);
+                if (movesPlayed < 1)
+                    row = column = 0;
+                else {
+                    ArrayList<Integer> ans = minimax(board, 0, playerXChance);
+                    row = ans.get(2) / 3;
+                    column = ans.get(2) % 3;
+                }
 
                 makeMove(ALL_BLOCKS[3 * row + column], row, column);
                 enableAllEmptyBlocks();
@@ -373,4 +426,5 @@ public class GamePlayActivity extends Activity {
         }, 2000);
 
     }
+
 }

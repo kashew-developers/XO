@@ -52,6 +52,12 @@ public class MainActivity extends Activity {
     }
 
 
+    public void onAboutClicked(View view){
+
+        startActivity(new Intent(this, AboutActivity.class));
+
+    }
+
     @Override
     public void onBackPressed() {
 

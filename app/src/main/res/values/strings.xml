@@ -20,4 +20,7 @@
     <string name="singlePlayer">Single Player</string>
     <string name="multiPlayer">Multi Player</string>
 
+    <string name="developer">Kashew Developers</string>
+    <string name="github_link"><u><i>XO - GitHub</i></u></string>
+
 </resources>

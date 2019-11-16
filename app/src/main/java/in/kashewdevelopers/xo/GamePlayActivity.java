@@ -200,7 +200,6 @@ public class GamePlayActivity extends Activity {
         //// This method is called when the game is over
         //// Either a player wins, or all the blocks are filled
 
-
         //// Disable all blocks
         disableAllBlocks();
 
@@ -214,8 +213,8 @@ public class GamePlayActivity extends Activity {
         } else if (action == 2) {
             HEADING.setText(singlePlayerMode ? "Computer won the game" : "Player \"O\" won the game");
             oVictoryCount++;
-        } else if (action == 3)
-            HEADING.setText("Tie Game");
+        } else if (action == 0)
+            HEADING.setText("Draw Game");
 
         if (singlePlayerMode)
             SCORE.setText("Score\nYou : " + xVictoryCount + "\nComputer : " + oVictoryCount);
@@ -392,7 +391,7 @@ public class GamePlayActivity extends Activity {
                 int row, column;
 
                 if (movesPlayed < 1)
-                    row = column = 0;
+                    row = column = 1;
                 else {
                     ArrayList<Integer> ans = minimax(board, 0, playerXChance);
                     row = ans.get(2) / 3;

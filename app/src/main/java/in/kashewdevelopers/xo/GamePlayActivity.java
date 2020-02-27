@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class GamePlayActivity extends Activity {
 
     //// For X player = true, for O player = false
@@ -48,6 +45,7 @@ public class GamePlayActivity extends Activity {
         } else {
             HEADING.setText(singlePlayerMode ? R.string.computer_chance : R.string.o_chance);
         }
+
     }
 
 
@@ -96,11 +94,21 @@ public class GamePlayActivity extends Activity {
 
         //// if a block is clicked, find which block was clicked
         //// send that blocks view & coordinates to makeMove method
-        for (int i = 0; i < ALL_BLOCKS.length; ++i) {
-            if (ALL_BLOCKS[i].equals(block)) {
-                makeMove((TextView) block, i / 3, i % 3);
-            }
+
+        int row = 0, col = 0;
+        switch ( block.getId() ){
+            case R.id.r0c0: row = col = 0; break;
+            case R.id.r0c1: row = 0; col = 1; break;
+            case R.id.r0c2: row = 0; col = 2; break;
+            case R.id.r1c0: row = 1; col = 0; break;
+            case R.id.r1c1: row = 1; col = 1; break;
+            case R.id.r1c2: row = 1; col = 2; break;
+            case R.id.r2c0: row = 2; col = 0; break;
+            case R.id.r2c1: row = 2; col = 1; break;
+            case R.id.r2c2: row = 2; col = 2; break;
         }
+
+        makeMove((TextView) block, row, col);
 
     }
 
@@ -143,11 +151,11 @@ public class GamePlayActivity extends Activity {
         //// if result == -1, continue game
         //// if result == 0, draw
         //// if result == 1, player X won
-        //// if result == 2, player Y won
+        //// if result == 2, player O won
         //// check game mode, if singlePlayerMode = true
         //// check current player, if playerXChance = false
         //// its computer's chance
-        int result = evaluate(board, true);
+        int result = evaluate(true);
         if (result == -1) {
             if (singlePlayerMode && !playerXChance) {
                 computerChance();
@@ -158,7 +166,7 @@ public class GamePlayActivity extends Activity {
     }
 
 
-    public int evaluate(int[][] board, boolean cut) {
+    public int evaluate(boolean cut) {
 
         //// Check Rows
         for (int i = 0; i < 3; i++) {
@@ -326,55 +334,59 @@ public class GamePlayActivity extends Activity {
     }
 
 
-    public ArrayList<Integer> minimax(int board[][], int depth, boolean curPlayer) {
+    public int minimax(int depth, boolean curPlayer) {
 
-        int result = evaluate(board, false);
 
-        if (result != -1) {
-            int ret;
-            if (result == 0) ret = 0;
-            else ret = ((result == 1) == playerXChance) ? 1 : -1;
-            return new ArrayList<>(Arrays.asList(ret, depth - 1, -1));
-        }
-
-        int[][] tempBoard = new int[3][3];
-        for (int i = 0; i < 3; i++) {
-            System.arraycopy(board[i], 0, tempBoard[i], 0, 3);
-        }
-
-        ArrayList<Integer> answer = new ArrayList<>();
-        answer.add(((depth & 1) == 0) ? Integer.MAX_VALUE : Integer.MIN_VALUE);
-        answer.add(-1);
-        answer.add(-1);
+        Integer finalDepth = null, finalPos = null;
+        int tempDepth;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (tempBoard[i][j] == 0) {
 
-                    tempBoard[i][j] = curPlayer ? 1 : 2;
+                if (board[i][j] == 0) {
+
+                    board[i][j] = curPlayer ? 1 : 2;
                     movesPlayed++;
 
-                    ArrayList<Integer> temp = minimax(tempBoard, depth + 1, !curPlayer);
-                    if (temp.get(2) == -1) temp.set(2, 3 * i + j);
 
-                    if ((depth & 1) == 0) {
-                        if (temp.get(0) < answer.get(0)) answer = temp;
-                        else if (temp.get(0).equals(answer.get(0)) && temp.get(1) < answer.get(1))
-                            answer = temp;
-                    } else {
-                        if (temp.get(0) > answer.get(0)) answer = temp;
-                        else if (temp.get(0).equals(answer.get(0)) && temp.get(1) < answer.get(1))
-                            answer = temp;
+                    int result = evaluate(false);
+                    if (result != -1) {
+                        if( result == 0 ) tempDepth = 0;
+                        else tempDepth = ((curPlayer == playerXChance) ? 1 : -1) * depth;
+                    }
+                    else {
+                        tempDepth = minimax(depth - 1, ! curPlayer);
                     }
 
-                    tempBoard[i][j] = 0;
+                    board[i][j] = 0;
                     movesPlayed--;
+
+                    if( finalDepth == null ) finalDepth = tempDepth;
+
+                    if( curPlayer == playerXChance ){
+                        if( finalDepth <= tempDepth ){
+                            finalDepth = tempDepth;
+                            finalPos = i * 3 + j;
+                        }
+
+                        if( finalDepth == depth) break;
+
+                    }
+                    else {
+                        if( finalDepth >= tempDepth ){
+                            finalDepth = tempDepth;
+                            finalPos = i * 3 + j;
+                        }
+
+                        if( finalDepth == -depth) break;
+                    }
 
                 }
             }
         }
 
-        return answer;
+        if( depth == 10 ) return finalPos;
+        else return finalDepth;
 
     }
 
@@ -390,19 +402,21 @@ public class GamePlayActivity extends Activity {
 
                 int row, column;
 
-                if (movesPlayed < 1)
-                    row = column = 1;
+                if (movesPlayed < 1) {
+                    row = (int) (Math.random() * 3);
+                    column = (int) (Math.random() * 3);
+                }
                 else {
-                    ArrayList<Integer> ans = minimax(board, 0, playerXChance);
-                    row = ans.get(2) / 3;
-                    column = ans.get(2) % 3;
+                    int ans = minimax(10, playerXChance);
+                    row = ans / 3;
+                    column = ans % 3;
                 }
 
                 makeMove(ALL_BLOCKS[3 * row + column], row, column);
                 enableAllEmptyBlocks();
                 RESET.setEnabled(true);
             }
-        }, 1000);
+        }, 400);
 
     }
 

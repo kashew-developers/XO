@@ -1,263 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".GamePlayActivity">
 
-
-    <!-- Heading -->
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center_horizontal"
-        android:text="@string/heading"
-        android:textSize="28sp"
-        android:textStyle="italic|bold" />
-
-    <!-- Grid -->
     <LinearLayout
-        android:id="@+id/grid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <!-- Row 0 -->
-        <LinearLayout
-            android:id="@+id/row1"
+
+        <!-- Heading -->
+        <TextView
+            android:id="@+id/heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            android:padding="0dp">
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:text="@string/heading"
+            android:textSize="28sp"
+            android:textStyle="italic|bold" />
 
-            <TextView
-                android:id="@+id/r0c0"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+        <!-- Grid -->
+        <LinearLayout
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <!-- Row 0 -->
+            <LinearLayout
+                android:id="@+id/row1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <TextView
+                    android:id="@+id/r0c0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+                <!-- Separator -->
+                <TextView
+                    android:layout_width="@dimen/borderSize"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@color/border"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/r0c1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+                <!-- Separator -->
+                <TextView
+                    android:layout_width="@dimen/borderSize"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@color/border"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/r0c2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+            </LinearLayout>
 
             <!-- Separator -->
-            <TextView
-                android:layout_width="@dimen/borderSize"
-                android:layout_height="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/borderSize"
                 android:layout_margin="0dp"
                 android:background="@color/border"
                 android:padding="0dp" />
 
-            <TextView
-                android:id="@+id/r0c1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <!-- Row 1 -->
+            <LinearLayout
+                android:id="@+id/row2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <TextView
+                    android:id="@+id/r1c0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+                <!-- Separator -->
+                <TextView
+                    android:layout_width="@dimen/borderSize"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@color/border"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/r1c1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+                <!-- Separator -->
+                <TextView
+                    android:layout_width="@dimen/borderSize"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@color/border"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/r1c2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+            </LinearLayout>
 
             <!-- Separator -->
-            <TextView
-                android:layout_width="@dimen/borderSize"
-                android:layout_height="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/borderSize"
                 android:layout_margin="0dp"
                 android:background="@color/border"
                 android:padding="0dp" />
 
-            <TextView
-                android:id="@+id/r0c2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <!-- Row 2 -->
+            <LinearLayout
+                android:id="@+id/row3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <TextView
+                    android:id="@+id/r2c0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+                <!-- Separator -->
+                <TextView
+                    android:layout_width="@dimen/borderSize"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@color/border"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/r2c1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+                <!-- Separator -->
+                <TextView
+                    android:layout_width="@dimen/borderSize"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:background="@color/border"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/r2c2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:onClick="onBlockClicked"
+                    android:padding="0dp"
+                    android:text="@string/blank"
+                    android:textSize="@dimen/blockFontSize" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-        <!-- Separator -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/borderSize"
-            android:layout_margin="0dp"
-            android:background="@color/border"
-            android:padding="0dp" />
+        <!-- Reset Button -->
+        <Button
+            android:id="@+id/resest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/botton_style"
+            android:onClick="reset"
+            android:text="@string/reset"
+            android:textSize="20sp"
+            android:textStyle="italic|bold" />
 
-        <!-- Row 1 -->
-        <LinearLayout
-            android:id="@+id/row2"
+        <TextView
+            android:id="@+id/score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
-            <TextView
-                android:id="@+id/r1c0"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
-
-            <!-- Separator -->
-            <TextView
-                android:layout_width="@dimen/borderSize"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@color/border"
-                android:padding="0dp" />
-
-            <TextView
-                android:id="@+id/r1c1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
-
-            <!-- Separator -->
-            <TextView
-                android:layout_width="@dimen/borderSize"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@color/border"
-                android:padding="0dp" />
-
-            <TextView
-                android:id="@+id/r1c2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
-
-        </LinearLayout>
-
-        <!-- Separator -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/borderSize"
-            android:layout_margin="0dp"
-            android:background="@color/border"
-            android:padding="0dp" />
-
-        <!-- Row 2 -->
-        <LinearLayout
-            android:id="@+id/row3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
-            <TextView
-                android:id="@+id/r2c0"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
-
-            <!-- Separator -->
-            <TextView
-                android:layout_width="@dimen/borderSize"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@color/border"
-                android:padding="0dp" />
-
-            <TextView
-                android:id="@+id/r2c1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
-
-            <!-- Separator -->
-            <TextView
-                android:layout_width="@dimen/borderSize"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:background="@color/border"
-                android:padding="0dp" />
-
-            <TextView
-                android:id="@+id/r2c2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:onClick="onBlockClicked"
-                android:padding="0dp"
-                android:text="@string/blank"
-                android:textSize="@dimen/blockFontSize" />
-
-        </LinearLayout>
-
+            android:gravity="center_horizontal"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="italic" />
 
     </LinearLayout>
 
-    <!-- Reset Button -->
-    <Button
-        android:id="@+id/resest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/botton_style"
-        android:onClick="reset"
-        android:text="@string/reset"
-        android:textSize="20sp"
-        android:textStyle="italic|bold" />
-
-    <TextView
-        android:id="@+id/score"
+    <RelativeLayout
+        android:id="@+id/progress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textColor="#000000"
-        android:textSize="22sp"
-        android:textStyle="italic" />
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#55000000"
+        android:visibility="gone">
 
-</LinearLayout>
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

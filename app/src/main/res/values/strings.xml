@@ -14,11 +14,26 @@
     <string name="o_chance">O Player\'s chance</string>
 
     <string name="reset">Reset</string>
+    <string name="new_game">New Game</string>
     <string name="your_chance">Your Chance</string>
     <string name="computer_chance">Computer\'s Chance</string>
+    <string name="draw_game">Draw Game</string>
 
     <string name="singlePlayer">Single Player</string>
     <string name="multiPlayer">Multi Player</string>
+    <string name="playWithFriend">Play With Friend</string>
+    <string name="createGame">Create Game</string>
+    <string name="joinGame">Join Game</string>
+    <string name="cancel">Cancel</string>
+    <string name="start">Start</string>
+
+
+    <string name="name">Name</string>
+    <string name="gameRoomId">Game Room ID</string>
+
+    <string name="shareID">Share ID</string>
+    <string name="copyID">Copy ID</string>
+
 
     <string name="developer">Kashew Developers</string>
     <string name="github_link"><u><i>XO - GitHub</i></u></string>

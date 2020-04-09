@@ -21,7 +21,6 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         pressBackAgain = Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT);
 
         Typeface typeface = Typeface.createFromAsset(this.getAssets(), "fonts/paintfont.ttf");
@@ -47,6 +46,16 @@ public class MainActivity extends Activity {
         pressBackAgain.cancel();
         Intent i = new Intent(this, GamePlayActivity.class);
         i.putExtra("singlePlayer", false);
+        startActivity(i);
+
+    }
+
+
+    public void onPlayWithFriendsClicked(View view){
+
+        pressBackAgain.cancel();
+        Intent i = new Intent(this, GameCreateJoin.class);
+        i.putExtra("withFriends", false);
         startActivity(i);
 
     }

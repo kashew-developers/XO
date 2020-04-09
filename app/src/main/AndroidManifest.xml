@@ -8,8 +8,14 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
-        <activity android:name=".AboutActivity"></activity>
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".GameFriend" />
+
+        <activity android:name=".GameCreateJoin" />
+
+        <activity android:name=".AboutActivity" />
+
         <activity
             android:name=".GamePlayActivity"
             android:screenOrientation="portrait">
@@ -17,6 +23,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -27,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

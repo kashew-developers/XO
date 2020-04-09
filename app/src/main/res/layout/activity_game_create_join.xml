@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".GameCreateJoin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="#00000000"
+            android:backgroundTint="#ffffff"
+            android:gravity="center"
+            android:hint="@string/name"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ccffffff"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/createGameButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/mode_style"
+            android:onClick="onCreateGameClicked"
+            android:padding="15dp"
+            android:text="@string/createGame"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
+
+
+        <LinearLayout
+            android:id="@+id/createSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/creatorGameRoomId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:gravity="center"
+                android:hint="@string/gameRoomId"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ccffffff"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/copyIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/copyID"
+                android:src="@drawable/copy_icon" />
+
+            <ImageView
+                android:id="@+id/shareIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/shareID"
+                android:src="@drawable/share_icon" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/joinGameButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/mode_style"
+            android:onClick="onJoinGameClicked"
+            android:padding="15dp"
+            android:text="@string/joinGame"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
+
+
+        <EditText
+            android:id="@+id/joinGameRoomId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="#00000000"
+            android:gravity="center"
+            android:hint="@string/gameRoomId"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ccffffff"
+            android:textSize="20sp" />
+
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/mode_style"
+            android:onClick="onCancelClicked"
+            android:padding="15dp"
+            android:text="@string/cancel"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="italic" />
+
+
+        <Button
+            android:id="@+id/startGameButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:onClick="onStartClicked"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/mode_style"
+            android:padding="15dp"
+            android:text="@string/start"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+</ScrollView>

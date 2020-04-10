@@ -137,6 +137,7 @@ public class GameFriend extends AppCompatActivity {
             initialData.put("joineeName", name);
         }
         initialData.put("gameFinished", false);
+        initialData.put("newGame", true);
 
         databaseReference.updateChildren(initialData)
                 .addOnFailureListener(new OnFailureListener() {
@@ -166,12 +167,28 @@ public class GameFriend extends AppCompatActivity {
     public void analyzeData() {
 
         if( gameRoom.gameFinished ){
-            NEW_GAME.setVisibility(View.VISIBLE);
             disableAllBlocks();
+            if( createdGame == gameRoom.creatorChance){
+                if (gameRoom.movePlayed != null) {
+                    int r = gameRoom.movePlayed / 3;
+                    int c = gameRoom.movePlayed % 3;
+                    makeMove(ALL_BLOCKS[gameRoom.movePlayed], r, c, false);
+                }
+            }
+            NEW_GAME.setVisibility(View.VISIBLE);
             return;
         }
 
-        NEW_GAME.setVisibility(View.GONE);
+        if( gameRoom.newGame ){
+            NEW_GAME.setVisibility(View.GONE);
+            movesPlayed = 0;
+            board = new int[3][3];
+            for (TextView block : ALL_BLOCKS) {
+                block.setText(R.string.blank);
+                block.setEnabled(true);
+                block.setForeground(null);
+            }
+        }
 
         changeHeading();
 
@@ -246,13 +263,16 @@ public class GameFriend extends AppCompatActivity {
         updateData.put("creatorChance", !gameRoom.creatorChance);
         updateData.put("movePlayed", r * 3 + c);
         board[r][c] = createdGame ? 1 : 2;
+        movesPlayed++;
         updateData.put("gameFinished", (evaluate(false) != -1));
+        updateData.put("newGame", false);
 
         databaseReference.updateChildren(updateData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         board[r][c] = 0;
+                        movesPlayed--;
                         makeMove(block, r, c, true);
                         PROGRESS.setVisibility(View.GONE);
                     }
@@ -261,6 +281,7 @@ public class GameFriend extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         board[r][c] = 0;
+                        movesPlayed--;
                         PROGRESS.setVisibility(View.GONE);
                         Toast.makeText(GameFriend.this, "Network Error, please try again",
                                 Toast.LENGTH_LONG).show();
@@ -415,19 +436,12 @@ public class GameFriend extends AppCompatActivity {
         resetData.put("gameFinished", false);
         resetData.put("creatorChance", random.nextBoolean());
         resetData.put("movePlayed", null);
+        resetData.put("newGame", true);
 
         databaseReference.updateChildren(resetData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        movesPlayed = 0;
-                        board = new int[3][3];
-                        for (TextView block : ALL_BLOCKS) {
-                            block.setText(R.string.blank);
-                            block.setEnabled(true);
-                            block.setForeground(null);
-                        }
-                        disableAllBlocks();
                         PROGRESS.setVisibility(View.GONE);
                     }
                 })

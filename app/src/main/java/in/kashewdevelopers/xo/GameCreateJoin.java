@@ -6,7 +6,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,14 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
 
@@ -36,9 +27,6 @@ public class GameCreateJoin extends Activity {
     String gameRoomId;
     int gameRoomIdLength = 10;
     ProgressDialog progressDialog;
-
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,46 +86,15 @@ public class GameCreateJoin extends Activity {
 
     }
 
-//    public void createGame(View view) {
-//
-//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference ref = database.getReference().child("game_rooms");
-//
-////        ref.setValue("Hello");
-//
-//        GameRoom gameRoom = new GameRoom("Kashew", "kashewdevelopers@gmail.com");
-//        ref.setValue(gameRoom);
-//
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                GameRoom gr = dataSnapshot.getValue(GameRoom.class);
-//                Log.d("KashewDevelopers", "Value : " + gr.username + " > " + gr.email);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//
-//    }
-
 
     public void onCreateGameClicked(View view) {
 
-        if( name.getText().toString().isEmpty() ){
+        if (name.getText().toString().isEmpty()) {
             name.setError("Enter Name");
             return;
         }
 
         name.setEnabled(false);
-
-        progressDialog.setTitle("Creating Game Room");
-        progressDialog.setMessage("Please wait");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
         createGameButton.setVisibility(View.GONE);
         joinGameButton.setVisibility(View.GONE);
@@ -153,36 +110,16 @@ public class GameCreateJoin extends Activity {
             temp.append(charSet.charAt(random.nextInt(62)));
         }
         gameRoomId = temp.toString();
-
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference().child("game_rooms").child(gameRoomId);
-        databaseReference.setValue(gameRoomId)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        progressDialog.dismiss();
-                        creatorGameRoomId.setText(gameRoomId);
-                        copyButton.setClickable(true);
-                        shareButton.setClickable(true);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        new AlertDialog.Builder(GameCreateJoin.this)
-                                .setTitle("Error")
-                                .setMessage("Could'nt Create Game, please try again")
-                                .show();
-                    }
-                });
+        creatorGameRoomId.setText(gameRoomId);
+        copyButton.setClickable(true);
+        shareButton.setClickable(true);
 
     }
 
 
     public void onJoinGameClicked(View view) {
 
-        if( name.getText().toString().isEmpty() ){
+        if (name.getText().toString().isEmpty()) {
             name.setError("Enter Name");
             return;
         }
@@ -199,7 +136,7 @@ public class GameCreateJoin extends Activity {
     }
 
 
-    public void onCancelClicked(View view){
+    public void onCancelClicked(View view) {
 
         name.setEnabled(true);
 
@@ -215,15 +152,14 @@ public class GameCreateJoin extends Activity {
     }
 
 
-    public void onStartClicked(View view){
+    public void onStartClicked(View view) {
 
-        if( joinGameRoomId.getVisibility() == View.VISIBLE ){
+        if (joinGameRoomId.getVisibility() == View.VISIBLE) {
 
-            if( joinGameRoomId.getText().toString().isEmpty() ){
+            if (joinGameRoomId.getText().toString().isEmpty()) {
                 joinGameRoomId.setError("Enter Game Room ID");
                 return;
-            }
-            else if( joinGameRoomId.getText().toString().length() != gameRoomIdLength ){
+            } else if (joinGameRoomId.getText().toString().length() != gameRoomIdLength) {
                 joinGameRoomId.setError("Invalid Game Room ID");
                 return;
             }

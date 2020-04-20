@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".AuthenticateUser">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/authenticate"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="italic|bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/input_style"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp">
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/countryCodeHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:ccp_showNameCode="false"
+            app:ccp_showPhoneCode="false" />
+
+        <EditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/phoneNumber"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLength="10" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/otpButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:onClick="getOtpClicked"
+        android:background="@drawable/mode_style"
+        android:padding="10dp"
+        android:text="@string/get_otp"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:id="@+id/otpSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/input_style"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/otpCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/otp"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLength="10" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/verifyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:onClick="verifyOtpClicked"
+        android:background="@drawable/mode_style"
+        android:padding="10dp"
+        android:text="@string/verify"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+</LinearLayout>

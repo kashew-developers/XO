@@ -54,8 +54,7 @@ public class MainActivity extends Activity {
     public void onPlayWithFriendsClicked(View view){
 
         pressBackAgain.cancel();
-        Intent i = new Intent(this, GameCreateJoin.class);
-        i.putExtra("withFriends", false);
+        Intent i = new Intent(this, AuthenticateUser.class);
         startActivity(i);
 
     }

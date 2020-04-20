@@ -1,39 +1,48 @@
 <resources>
 
     <string name="app_name">X &amp; O</string>
-
-    <string name="heading">X/O player\'s chance</string>
-    <string name="blank"> </string>
-
     <string name="x">X</string>
     <string name="and">&amp;</string>
     <string name="o">O</string>
-    <string name="o_color">#6D6B6B</string>
-    <string name="x_color">#ff0000</string>
+
+    <!-- headings -->
+    <string name="heading">X/O player\'s chance</string>
     <string name="x_chance">X Player\'s chance</string>
     <string name="o_chance">O Player\'s chance</string>
-
-    <string name="reset">Reset</string>
-    <string name="new_game">New Game</string>
-    <string name="your_chance">Your Chance</string>
     <string name="computer_chance">Computer\'s Chance</string>
+    <string name="your_chance">Your Chance</string>
     <string name="draw_game">Draw Game</string>
 
-    <string name="singlePlayer">Single Player</string>
-    <string name="multiPlayer">Multi Player</string>
-    <string name="playWithFriend">Play With Friend</string>
+    <!-- labels -->
+    <string name="blank"> </string>
+    <string name="authenticate">Verify your phone number to play with friends</string>
+
+    <!-- colors -->
+    <string name="o_color">#6D6B6B</string>
+    <string name="x_color">#ff0000</string>
+
+    <!-- buttons -->
+    <string name="reset">Reset</string>
+    <string name="new_game">New Game</string>
     <string name="createGame">Create Game</string>
     <string name="joinGame">Join Game</string>
     <string name="cancel">Cancel</string>
     <string name="start">Start</string>
-
-
-    <string name="name">Name</string>
-    <string name="gameRoomId">Game Room ID</string>
-
+    <string name="verify">Verify</string>
+    <string name="get_otp">Get OTP</string>
     <string name="shareID">Share ID</string>
     <string name="copyID">Copy ID</string>
 
+    <!-- options -->
+    <string name="singlePlayer">Single Player</string>
+    <string name="multiPlayer">Multi Player</string>
+    <string name="playWithFriend">Play With Friend</string>
+
+    <!-- inputs -->
+    <string name="name">Name</string>
+    <string name="gameRoomId">Game Room ID</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="otp">OTP</string>
 
     <string name="developer">Kashew Developers</string>
     <string name="github_link"><u><i>XO - GitHub</i></u></string>

@@ -2,11 +2,9 @@ package in.kashewdevelopers.xo;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         pressBackAgain = Toast.makeText(this, R.string.press_back, Toast.LENGTH_SHORT);
-
-        Typeface typeface = Typeface.createFromAsset(this.getAssets(), "fonts/paintfont.ttf");
-        ((TextView) findViewById(R.id.x)).setTypeface(typeface);
-        ((TextView) findViewById(R.id.and)).setTypeface(typeface);
-        ((TextView) findViewById(R.id.o)).setTypeface(typeface);
     }
 
     @Override

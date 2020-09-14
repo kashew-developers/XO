@@ -13,6 +13,11 @@
     <string name="twoPlayer">Two Player</string>
     <string name="playOnline">Play Online</string>
 
+    <!-- about page -->
+    <string name="developed_by">Developed By :</string>
+    <string name="developer">Kashew Developers</string>
+    <string name="open_source_label">this is an open source application,\nyou can find its source code at:</string>
+    <string name="github_link"><u><i>XO - GitHub</i></u></string>
 
     <!-- headings -->
     <string name="heading">X/O player\'s chance</string>
@@ -49,7 +54,5 @@
     <string name="phoneNumber">Phone Number</string>
     <string name="otp">OTP</string>
 
-    <string name="developer">Kashew Developers</string>
-    <string name="github_link"><u><i>XO - GitHub</i></u></string>
 
 </resources>

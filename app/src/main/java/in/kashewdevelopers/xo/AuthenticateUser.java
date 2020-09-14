@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -42,35 +42,44 @@ public class AuthenticateUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate_user);
 
-
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent i = new Intent(this, GameCreateJoin.class);
-            startActivityForResult(i, 1234);
+            goToGameRoom();
         }
 
+        initialization();
+    }
 
-        progressDialog = new ProgressDialog(this);
-        auth = FirebaseAuth.getInstance();
-
-        // initialize widgets
-        countryCodePicker = findViewById(R.id.countryCodeHolder);
-        phoneNumberEt = findViewById(R.id.phoneNumber);
-        otpEt = findViewById(R.id.otpCode);
-        getOtpButton = findViewById(R.id.otpButton);
-        verifyButton = findViewById(R.id.verifyButton);
-        otpSection = findViewById(R.id.otpSection);
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1234)
+            onBackPressed();
     }
 
 
-    public void getOtpClicked(View v) {
+    // initialization
+    public void initialization() {
+        progressDialog = new ProgressDialog(this);
+        auth = FirebaseAuth.getInstance();
 
+        countryCodePicker = findViewById(R.id.countryCodeHolder);
+        phoneNumberEt = findViewById(R.id.phoneNumber);
+
+        otpSection = findViewById(R.id.otpSection);
+        otpEt = findViewById(R.id.otpCode);
+        otpSection.setVisibility(View.GONE);
+
+        getOtpButton = findViewById(R.id.otpButton);
+        verifyButton = findViewById(R.id.verifyButton);
+        verifyButton.setVisibility(View.GONE);
+    }
+
+
+    // handle widget clicks
+    public void getOtpClicked(View v) {
         if (phoneNumberEt.getText().toString().isEmpty()) {
             phoneNumberEt.setError("Cannot be empty");
             return;
@@ -82,39 +91,58 @@ public class AuthenticateUser extends AppCompatActivity {
         phoneNumber = countryCodePicker.getSelectedCountryCodeWithPlus() +
                 phoneNumberEt.getText().toString();
 
-        phoneNumberEt.setEnabled(false);
-        getOtpButton.setVisibility(View.GONE);
-        otpSection.setVisibility(View.VISIBLE);
-        verifyButton.setVisibility(View.VISIBLE);
-
-        progressDialog.setTitle("Sending OTP");
-        progressDialog.setMessage("please wait");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60,
-                TimeUnit.SECONDS, TaskExecutors.MAIN_THREAD, mCallBack);
-
+        initiateOtpProcess();
     }
 
-
-    public void verifyOtpClicked(View v){
-
+    public void verifyOtpClicked(View v) {
         if (otpEt.getText().toString().isEmpty()) {
             otpEt.setError("Cannot be empty");
             return;
         }
 
-        progressDialog.setTitle("Verifying OTP");
-        progressDialog.setMessage("please wait");
+        progressDialog.setTitle(R.string.verifying_otp);
+        progressDialog.setMessage(getText(R.string.please_wait));
         progressDialog.setCancelable(false);
         progressDialog.show();
 
         verifyCode();
-
     }
 
 
+    // functionality
+    public void initiateOtpProcess() {
+        phoneNumberEt.setEnabled(false);
+        getOtpButton.setVisibility(View.GONE);
+        otpSection.setVisibility(View.VISIBLE);
+        verifyButton.setVisibility(View.VISIBLE);
+        countryCodePicker.setCcpClickable(false);
+
+        progressDialog.setTitle(R.string.sending_otp);
+        progressDialog.setMessage(getText(R.string.please_wait));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60,
+                TimeUnit.SECONDS, TaskExecutors.MAIN_THREAD, mCallBack);
+    }
+
+    public void undoOtpProcess() {
+        phoneNumberEt.setEnabled(true);
+        getOtpButton.setVisibility(View.VISIBLE);
+        otpSection.setVisibility(View.GONE);
+        verifyButton.setVisibility(View.GONE);
+        countryCodePicker.setCcpClickable(true);
+
+        progressDialog.dismiss();
+    }
+
+    public void goToGameRoom() {
+        Intent i = new Intent(this, GameCreateJoin.class);
+        startActivityForResult(i, 1234);
+    }
+
+
+    // otp sending & verification
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
             mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -140,53 +168,45 @@ public class AuthenticateUser extends AppCompatActivity {
         public void onVerificationFailed(@NonNull FirebaseException e) {
             progressDialog.dismiss();
             Toast.makeText(AuthenticateUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            undoOtpProcess();
+        }
+
+        @Override
+        public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
+            super.onCodeAutoRetrievalTimeOut(s);
+            undoOtpProcess();
+            progressDialog.dismiss();
         }
     };
 
-
     private void verifyCode() {
-
         if (credential == null) {
             String code = otpEt.getText().toString();
             credential = PhoneAuthProvider.getCredential(verificationId, code);
         }
         signInWithCredential(credential);
-
     }
-
 
     private void signInWithCredential(PhoneAuthCredential credential) {
-
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-                            progressDialog.dismiss();
-                            Toast.makeText(AuthenticateUser.this,
-                                    "Verified", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(AuthenticateUser.this,
-                                    GameCreateJoin.class);
-                            startActivityForResult(i, 1234);
-
-                        } else {
-                            progressDialog.dismiss();
-                            Toast.makeText(AuthenticateUser.this,
-                                    task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }
-
+                    public void onSuccess(AuthResult authResult) {
+                        progressDialog.dismiss();
+                        Toast.makeText(AuthenticateUser.this,
+                                getText(R.string.verified), Toast.LENGTH_SHORT).show();
+                        goToGameRoom();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        otpEt.setText("");
+                        verificationId = null;
+                        undoOtpProcess();
                     }
                 });
-
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if( requestCode == 1234)
-            onBackPressed();
-    }
 }

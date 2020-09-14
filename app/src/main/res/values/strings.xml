@@ -7,6 +7,8 @@
 
     <!-- toasts -->
     <string name="press_back">Press back again to exit</string>
+    <string name="verified">Verified</string>
+    <string name="game_room_id_copied">Game Room Id Copied</string>
 
     <!-- game modes -->
     <string name="playWithAI">Play with AI</string>
@@ -19,6 +21,36 @@
     <string name="open_source_label">this is an open source application,\nyou can find its source code at:</string>
     <string name="github_link"><u><i>XO - GitHub</i></u></string>
 
+    <!-- labels -->
+    <string name="authenticate">Verify your phone number to play with friends</string>
+
+    <!-- dialogs -->
+    <string name="sending_otp">Sending OTP</string>
+    <string name="verifying_otp">Verifying OTP</string>
+    <string name="please_wait">Please wait&#8230;</string>
+
+    <!-- buttons -->
+    <string name="start">Start</string>
+    <string name="cancel">Cancel</string>
+    <string name="joinGame">Join Game</string>
+    <string name="shareID">Share ID</string>
+    <string name="copyID">Copy ID</string>
+    <string name="createGame">Create Game</string>
+    <string name="verify">Verify</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="reset">Reset</string>
+    <string name="new_game">New Game</string>
+
+    <!-- inputs -->
+    <string name="name">Name</string>
+    <string name="gameRoomId">Game Room ID</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="otp">OTP</string>
+
+
+
+    <string name="blank"> </string>
+
     <!-- headings -->
     <string name="heading">X/O player\'s chance</string>
     <string name="x_chance">X Player\'s chance</string>
@@ -27,32 +59,8 @@
     <string name="your_chance">Your Chance</string>
     <string name="draw_game">Draw Game</string>
 
-    <!-- labels -->
-    <string name="blank"> </string>
-    <string name="authenticate">Verify your phone number to play with friends</string>
-
     <!-- colors -->
     <string name="o_color">#6D6B6B</string>
     <string name="x_color">#ff0000</string>
-
-    <!-- buttons -->
-    <string name="reset">Reset</string>
-    <string name="new_game">New Game</string>
-    <string name="createGame">Create Game</string>
-    <string name="joinGame">Join Game</string>
-    <string name="cancel">Cancel</string>
-    <string name="start">Start</string>
-    <string name="verify">Verify</string>
-    <string name="get_otp">Get OTP</string>
-    <string name="shareID">Share ID</string>
-    <string name="copyID">Copy ID</string>
-
-
-    <!-- inputs -->
-    <string name="name">Name</string>
-    <string name="gameRoomId">Game Room ID</string>
-    <string name="phoneNumber">Phone Number</string>
-    <string name="otp">OTP</string>
-
 
 </resources>

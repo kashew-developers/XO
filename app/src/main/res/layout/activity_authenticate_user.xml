@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
     android:padding="20dp"
     tools:context=".AuthenticateUser">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="@string/authenticate"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:textStyle="italic|bold" />
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toTopOf="@id/phoneNumberSection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- phone number section -->
     <LinearLayout
+        android:id="@+id/phoneNumberSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/input_style"
         android:orientation="horizontal"
         android:paddingStart="10dp"
-        android:paddingEnd="20dp">
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@id/otpSection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/countryCodeHolder"
@@ -50,31 +57,18 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/otpButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:onClick="getOtpClicked"
-        android:background="@drawable/mode_style"
-        android:padding="10dp"
-        android:text="@string/get_otp"
-        android:textColor="#ffffff"
-        android:textSize="16sp" />
-
-
+    <!-- otpSection -->
     <LinearLayout
         android:id="@+id/otpSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/input_style"
         android:orientation="horizontal"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:visibility="gone">
+        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/otpCode"
@@ -83,26 +77,67 @@
             android:layout_weight="1"
             android:hint="@string/otp"
             android:importantForAutofill="no"
-            android:inputType="phone"
+            android:inputType="number"
             android:lines="1"
             android:maxLength="10" />
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/verifyButton"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_guideline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- otpButton -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/otpButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="getOtpClicked"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/get_otp"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        app:cornerRadius="25dp"
+        app:icon="@drawable/message_icon"
+        app:iconSize="30dp"
+        app:iconTint="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="#ffffff"
+        app:strokeWidth="2dp" />
+
+    <!-- verifyButton -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/verifyButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:onClick="verifyOtpClicked"
-        android:background="@drawable/mode_style"
-        android:padding="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="@string/verify"
         android:textColor="#ffffff"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:textSize="22sp"
+        app:cornerRadius="25dp"
+        app:icon="@drawable/verify_icon"
+        app:iconSize="30dp"
+        app:iconTint="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="#ffffff"
+        app:strokeWidth="2dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

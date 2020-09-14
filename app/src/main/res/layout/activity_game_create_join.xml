@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context=".GameCreateJoin">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,34 +23,48 @@
             android:background="@drawable/input_style"
             android:gravity="center"
             android:hint="@string/name"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:maxLines="1"
             android:padding="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <!-- createGameButton -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/createGameButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/mode_style"
             android:onClick="onCreateGameClicked"
-            android:padding="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/createGame"
             android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold|italic" />
+            android:textSize="22sp"
+            app:cornerRadius="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:strokeColor="#ffffff"
+            app:strokeWidth="2dp" />
 
-
+        <!-- createSection -->
         <LinearLayout
             android:id="@+id/createSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createGameButton">
 
             <TextView
                 android:id="@+id/creatorGameRoomId"
@@ -63,82 +78,116 @@
                 android:padding="10dp"
                 android:textColor="#ffffff"
                 android:textColorHint="#ccffffff"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/copyIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/copyID"
-                android:src="@drawable/copy_icon" />
+                android:focusable="true"
+                android:onClick="onCopyClicked"
+                app:srcCompat="@drawable/copy_icon" />
 
             <ImageView
                 android:id="@+id/shareIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/shareID"
-                android:src="@drawable/share_icon" />
+                android:focusable="true"
+                android:onClick="onShareClicked"
+                app:srcCompat="@drawable/share_icon" />
 
         </LinearLayout>
 
-
-        <Button
+        <!-- joinGameButton -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/joinGameButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/mode_style"
             android:onClick="onJoinGameClicked"
-            android:padding="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/joinGame"
             android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold|italic" />
+            android:textSize="22sp"
+            app:cornerRadius="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createSection"
+            app:strokeColor="#ffffff"
+            app:strokeWidth="2dp" />
 
-
+        <!-- joinGameRoomId -->
         <EditText
             android:id="@+id/joinGameRoomId"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/input_style"
             android:gravity="center"
             android:hint="@string/gameRoomId"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:maxLines="1"
             android:padding="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/joinGameButton" />
 
-
-        <Button
+        <!-- cancelButton -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/mode_style"
+            android:layout_marginTop="15dp"
             android:onClick="onCancelClicked"
-            android:padding="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/cancel"
             android:textColor="#ffffff"
-            android:textSize="15sp"
-            android:textStyle="italic" />
+            android:textSize="22sp"
+            app:cornerRadius="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/joinGameRoomId"
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="#ffffff"
+            app:strokeWidth="2dp" />
 
-
-        <Button
+        <!-- startGameButton -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/startGameButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:onClick="onStartClicked"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/mode_style"
-            android:padding="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/start"
             android:textColor="#ffffff"
-            android:textSize="15sp"
-            android:textStyle="italic" />
+            android:textSize="22sp"
+            app:cornerRadius="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cancelButton"
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="#ffffff"
+            app:strokeWidth="2dp" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

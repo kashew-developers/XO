@@ -1,6 +1,5 @@
 package in.kashewdevelopers.xo;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,9 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
-public class GameCreateJoin extends Activity {
+public class GameCreateJoin extends AppCompatActivity {
 
     Button createGameButton, joinGameButton, cancelButton, startGameButton;
     LinearLayout createSection;
@@ -30,65 +31,40 @@ public class GameCreateJoin extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_create_join);
+
         progressDialog = new ProgressDialog(this);
+        initialize();
+    }
 
-
-        // Initialize widgets
+    // initialization
+    public void initialize() {
         name = findViewById(R.id.name);
+        name.requestFocus();
 
         createGameButton = findViewById(R.id.createGameButton);
+
         createSection = findViewById(R.id.createSection);
+        createSection.setVisibility(View.GONE);
+
         creatorGameRoomId = findViewById(R.id.creatorGameRoomId);
         copyButton = findViewById(R.id.copyIcon);
         shareButton = findViewById(R.id.shareIcon);
 
         joinGameButton = findViewById(R.id.joinGameButton);
         joinGameRoomId = findViewById(R.id.joinGameRoomId);
+        joinGameRoomId.setVisibility(View.GONE);
 
         cancelButton = findViewById(R.id.cancelButton);
-        startGameButton = findViewById(R.id.startGameButton);
-
-
-        // configure widgets
-        createSection.setVisibility(View.GONE);
-        copyButton.setClickable(false);
-        shareButton.setClickable(false);
-        joinGameRoomId.setVisibility(View.GONE);
         cancelButton.setVisibility(View.GONE);
+        startGameButton = findViewById(R.id.startGameButton);
         startGameButton.setVisibility(View.GONE);
-        name.requestFocus();
-
-
-        // widgets onClick
-        copyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("gameRoomId", creatorGameRoomId.getText().toString());
-                clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(GameCreateJoin.this, "Game Room Id Copied", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String shareBody = creatorGameRoomId.getText().toString();
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Send Game Room ID using"));
-            }
-        });
-
     }
 
 
+    // handle widget clicks
     public void onCreateGameClicked(View view) {
-
         if (name.getText().toString().isEmpty()) {
             name.setError("Enter Name");
             return;
@@ -111,14 +87,27 @@ public class GameCreateJoin extends Activity {
         }
         gameRoomId = temp.toString();
         creatorGameRoomId.setText(gameRoomId);
-        copyButton.setClickable(true);
-        shareButton.setClickable(true);
-
     }
 
+    public void onCopyClicked(View v) {
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("gameRoomId", creatorGameRoomId.getText().toString());
+        if (clipboardManager == null)
+            return;
+
+        clipboardManager.setPrimaryClip(clipData);
+        Toast.makeText(GameCreateJoin.this, R.string.game_room_id_copied, Toast.LENGTH_LONG).show();
+    }
+
+    public void onShareClicked(View v) {
+        String shareBody = creatorGameRoomId.getText().toString();
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Send Game Room ID using"));
+    }
 
     public void onJoinGameClicked(View view) {
-
         if (name.getText().toString().isEmpty()) {
             name.setError("Enter Name");
             return;
@@ -132,12 +121,9 @@ public class GameCreateJoin extends Activity {
         cancelButton.setVisibility(View.VISIBLE);
         startGameButton.setVisibility(View.VISIBLE);
         joinGameRoomId.setVisibility(View.VISIBLE);
-
     }
 
-
     public void onCancelClicked(View view) {
-
         name.setEnabled(true);
 
         createGameButton.setVisibility(View.VISIBLE);
@@ -148,14 +134,10 @@ public class GameCreateJoin extends Activity {
 
         cancelButton.setVisibility(View.GONE);
         startGameButton.setVisibility(View.GONE);
-
     }
 
-
     public void onStartClicked(View view) {
-
         if (joinGameRoomId.getVisibility() == View.VISIBLE) {
-
             if (joinGameRoomId.getText().toString().isEmpty()) {
                 joinGameRoomId.setError("Enter Game Room ID");
                 return;
@@ -171,16 +153,13 @@ public class GameCreateJoin extends Activity {
             i.putExtra("createGame", false);
             i.putExtra("name", name.getText().toString());
             startActivity(i);
-
         } else {
-
             Intent i = new Intent(this, GameFriend.class);
             i.putExtra("gameRoomId", creatorGameRoomId.getText().toString());
             i.putExtra("createGame", true);
             i.putExtra("name", name.getText().toString());
             startActivity(i);
-
         }
-
     }
+
 }

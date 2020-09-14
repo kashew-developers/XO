@@ -5,6 +5,15 @@
     <string name="and">&amp;</string>
     <string name="o">O</string>
 
+    <!-- toasts -->
+    <string name="press_back">Press back again to exit</string>
+
+    <!-- game modes -->
+    <string name="playWithAI">Play with AI</string>
+    <string name="twoPlayer">Two Player</string>
+    <string name="playOnline">Play Online</string>
+
+
     <!-- headings -->
     <string name="heading">X/O player\'s chance</string>
     <string name="x_chance">X Player\'s chance</string>
@@ -33,10 +42,6 @@
     <string name="shareID">Share ID</string>
     <string name="copyID">Copy ID</string>
 
-    <!-- options -->
-    <string name="singlePlayer">Single Player</string>
-    <string name="multiPlayer">Multi Player</string>
-    <string name="playWithFriend">Play With Friend</string>
 
     <!-- inputs -->
     <string name="name">Name</string>

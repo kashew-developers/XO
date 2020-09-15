@@ -23,6 +23,13 @@
 
     <!-- labels -->
     <string name="authenticate">Verify your phone number to play with friends</string>
+    <string name="score">Score</string>
+    <string name="you">You</string>
+    <string name="ai">AI</string>
+    <string name="player_x">Player X</string>
+    <string name="player_o">Player O</string>
+    <string name="colan">:</string>
+    <string name="block">block</string>
 
     <!-- dialogs -->
     <string name="sending_otp">Sending OTP</string>
@@ -47,20 +54,16 @@
     <string name="phoneNumber">Phone Number</string>
     <string name="otp">OTP</string>
 
-
-
-    <string name="blank"> </string>
-
     <!-- headings -->
     <string name="heading">X/O player\'s chance</string>
     <string name="x_chance">X Player\'s chance</string>
     <string name="o_chance">O Player\'s chance</string>
-    <string name="computer_chance">Computer\'s Chance</string>
+    <string name="ai_chance">AI\'s Chance</string>
     <string name="your_chance">Your Chance</string>
     <string name="draw_game">Draw Game</string>
-
-    <!-- colors -->
-    <string name="o_color">#6D6B6B</string>
-    <string name="x_color">#ff0000</string>
+    <string name="you_won">You won the game</string>
+    <string name="player_x_won">Player \"X\" won the game</string>
+    <string name="ai_won">AI won the game</string>
+    <string name="player_o_won">Player \"O\" won the game</string>
 
 </resources>

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 public class GameRoom {
 
-    public Boolean creatorChance, gameFinished, newGame;
+    public Boolean creatorChance, gameFinished, newGame, leftGame;
     public String creatorName, joineeName;
     public Integer movePlayed;
 
@@ -16,6 +16,7 @@ public class GameRoom {
         this.creatorName = creatorName;
         this.joineeName = joineeName;
         this.movePlayed = movePlayed;
+        this.leftGame = false;
     }
 
     @NonNull
@@ -26,6 +27,7 @@ public class GameRoom {
                 ", joineeName : " + joineeName +
                 ", newGame : " + newGame +
                 ", gameFinished : " + gameFinished +
+                ", leftGame : " + leftGame +
                 ", movePlayed : " + movePlayed;
     }
 }

@@ -16,16 +16,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GamePlayActivity extends AppCompatActivity {
 
-    //// For X, player = true, for O player = false
+    // For X, player = true, for O player = false
     private boolean playerXChance = true;
 
     private boolean playWithAI;
     private int xVictoryCount = 0, oVictoryCount = 0;
 
-    //// Moves played
+    // Moves played
     private int numberOfMovesPlayed = 0;
 
-    //// Grid Data - Stores all moves made by player
+    // Grid Data - Stores all moves made by player
     private int[][] board = new int[3][3];
 
 
@@ -35,7 +35,7 @@ public class GamePlayActivity extends AppCompatActivity {
     public int STRIKE_ROW = 0, STRIKE_COLUMN = 1, STRIKE_DIAGONAL = 2;
 
 
-    //// widgets
+    // widgets
     TextView headingTV;
     ImageView[] gameBlocks;
     TextView[] strikes;

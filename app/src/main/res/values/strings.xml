@@ -9,6 +9,7 @@
     <string name="press_back">Press back again to exit</string>
     <string name="verified">Verified</string>
     <string name="game_room_id_copied">Game Room Id Copied</string>
+    <string name="opponent_player_left">Opponent has left the game</string>
 
     <!-- game modes -->
     <string name="playWithAI">Play with AI</string>
@@ -62,6 +63,7 @@
     <string name="your_chance">Your Chance</string>
     <string name="draw_game">Draw Game</string>
     <string name="you_won">You won the game</string>
+    <string name="someone_won">%1$s won the game</string>
     <string name="player_x_won">Player \"X\" won the game</string>
     <string name="ai_won">AI won the game</string>
     <string name="player_o_won">Player \"O\" won the game</string>

@@ -121,6 +121,7 @@ public class GameCreateJoin extends AppCompatActivity {
         cancelButton.setVisibility(View.VISIBLE);
         startGameButton.setVisibility(View.VISIBLE);
         joinGameRoomId.setVisibility(View.VISIBLE);
+        joinGameRoomId.requestFocus();
     }
 
     public void onCancelClicked(View view) {

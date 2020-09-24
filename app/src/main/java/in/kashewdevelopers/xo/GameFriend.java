@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +53,7 @@ public class GameFriend extends AppCompatActivity {
     TextView opponentScoreLabelTV, opponentScoreTV;
     Button resetButton;
     RelativeLayout progressBar;
+    AdView adView;
 
     private int numberOfMovesPlayed = 0, creatorVictoryCount = 0, joineeVictoryCount = 0;
     public int STRIKE_ROW = 0, STRIKE_COLUMN = 1, STRIKE_DIAGONAL = 2;
@@ -66,6 +70,7 @@ public class GameFriend extends AppCompatActivity {
         setContentView(R.layout.activity_game_play);
 
         initialization();
+        manageAds();
 
         progressDialog.setTitle("Starting Game");
         progressDialog.setMessage("please wait");
@@ -141,6 +146,8 @@ public class GameFriend extends AppCompatActivity {
         opponentScoreTV = findViewById(R.id.opponent_score);
         resetButton = findViewById(R.id.reset);
         progressBar = findViewById(R.id.progress);
+
+        adView = findViewById(R.id.adView);
 
         configureWidgetVisibility();
     }
@@ -368,6 +375,20 @@ public class GameFriend extends AppCompatActivity {
         opponentScoreTV.setText(String.valueOf(createdGame ? joineeVictoryCount : creatorVictoryCount));
         opponentScoreLabelTV.setText(createdGame ? gameRoom.joineeName : gameRoom.creatorName);
 
+        int yourScore = (createdGame ? creatorVictoryCount : joineeVictoryCount);
+        int opponentScore = (createdGame ? joineeVictoryCount : creatorVictoryCount);
+
+        if (yourScore > opponentScore) {
+            yourScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
+            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+        } else if (yourScore < opponentScore) {
+            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            opponentScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        } else {
+            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+        }
+
         resetButton.setVisibility(View.VISIBLE);
     }
 
@@ -477,6 +498,10 @@ public class GameFriend extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    public void manageAds() {
+        adView.loadAd(new AdRequest.Builder().build());
     }
 
 }

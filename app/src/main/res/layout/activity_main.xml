@@ -27,8 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="@string/x"
             android:fontFamily="@font/paintfont"
+            android:text="@string/x"
             android:textColor="#ffffff"
             android:textSize="75sp" />
 
@@ -37,16 +37,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="@string/and"
             android:fontFamily="@font/paintfont"
+            android:text="@string/and"
             android:textColor="#ffffff"
             android:textSize="30sp" />
 
         <TextView
             android:id="@+id/o"
-            android:fontFamily="@font/paintfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/paintfont"
             android:text="@string/o"
             android:textColor="#ffffff"
             android:textSize="75sp" />
@@ -69,11 +69,14 @@
         android:textSize="22sp"
         app:cornerRadius="25dp"
         app:icon="@drawable/person_icon"
+        app:iconGravity="textStart"
+        app:iconPadding="20dp"
         app:iconSize="30dp"
         app:iconTint="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headingSection"
+        app:rippleColor="@android:color/white"
         app:strokeColor="#ffffff"
         app:strokeWidth="2dp" />
 
@@ -93,11 +96,14 @@
         android:textSize="22sp"
         app:cornerRadius="25dp"
         app:icon="@drawable/two_person_icon"
+        app:iconGravity="textStart"
+        app:iconPadding="20dp"
         app:iconSize="30dp"
         app:iconTint="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/playWithAI"
+        app:rippleColor="@android:color/white"
         app:strokeColor="#ffffff"
         app:strokeWidth="2dp" />
 
@@ -117,6 +123,8 @@
         android:textSize="22sp"
         app:cornerRadius="25dp"
         app:icon="@drawable/add_person_logo"
+        app:iconGravity="textStart"
+        app:iconPadding="20dp"
         app:iconSize="30dp"
         app:iconTint="#ffffff"
         app:layout_constraintBottom_toTopOf="@id/info"
@@ -124,6 +132,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/twoPlayer"
         app:layout_constraintVertical_bias="0.0"
+        app:rippleColor="@android:color/white"
         app:strokeColor="#ffffff"
         app:strokeWidth="2dp" />
 

@@ -1,6 +1,7 @@
 package in.kashewdevelopers.xo;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class GamePlayActivity extends AppCompatActivity {
 
@@ -43,6 +47,7 @@ public class GamePlayActivity extends AppCompatActivity {
     TextView yourScoreLabelTV, yourScoreTV;
     TextView opponentScoreLabelTV, opponentScoreTV;
     Button resetButton;
+    AdView adView;
 
 
     @Override
@@ -51,6 +56,7 @@ public class GamePlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_play);
 
         initialization();
+        manageAds();
 
         // Get Game Mode
         playWithAI = getIntent().getBooleanExtra(getString(R.string.playWithAI), false);
@@ -121,6 +127,8 @@ public class GamePlayActivity extends AppCompatActivity {
         opponentScoreLabelTV = findViewById(R.id.opponent_label);
         opponentScoreTV = findViewById(R.id.opponent_score);
         resetButton = findViewById(R.id.reset);
+
+        adView = findViewById(R.id.adView);
 
         configureWidgetVisibility();
     }
@@ -235,6 +243,17 @@ public class GamePlayActivity extends AppCompatActivity {
         yourScoreLabelTV.setText(playWithAI ? R.string.you : R.string.player_x);
         opponentScoreTV.setText(String.valueOf(oVictoryCount));
         opponentScoreLabelTV.setText(playWithAI ? R.string.ai : R.string.player_o);
+
+        if (xVictoryCount > oVictoryCount) {
+            yourScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
+            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+        } else if (xVictoryCount < oVictoryCount) {
+            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            opponentScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        } else {
+            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+        }
     }
 
     public void aiChance() {
@@ -392,6 +411,10 @@ public class GamePlayActivity extends AppCompatActivity {
         if (playWithAI && (!playerXChance)) {
             aiChance();
         }
+    }
+
+    public void manageAds() {
+        adView.loadAd(new AdRequest.Builder().build());
     }
 
 }

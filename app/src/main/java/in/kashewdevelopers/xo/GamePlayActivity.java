@@ -7,16 +7,15 @@ import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+
+import in.kashewdevelopers.xo.databinding.ActivityGamePlayBinding;
 
 public class GamePlayActivity extends AppCompatActivity {
 
@@ -38,22 +37,18 @@ public class GamePlayActivity extends AppCompatActivity {
 
     public int STRIKE_ROW = 0, STRIKE_COLUMN = 1, STRIKE_DIAGONAL = 2;
 
+    ActivityGamePlayBinding binding;
 
     // widgets
-    TextView headingTV;
     ImageView[] gameBlocks;
     TextView[] strikes;
-    ConstraintLayout scoreSection, grid;
-    TextView yourScoreLabelTV, yourScoreTV;
-    TextView opponentScoreLabelTV, opponentScoreTV;
-    Button resetButton;
-    AdView adView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_play);
+        binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         initialization();
         manageAds();
@@ -99,36 +94,22 @@ public class GamePlayActivity extends AppCompatActivity {
 
         backPressedToast = Toast.makeText(this, R.string.press_back, Toast.LENGTH_SHORT);
 
-        grid.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        binding.grid.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                grid.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                binding.grid.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 setGridSize();
             }
         });
     }
 
     public void initializeWidgets() {
-        headingTV = findViewById(R.id.heading);
+        gameBlocks = new ImageView[]{binding.r0c0, binding.r0c1, binding.r0c2, binding.r1c0,
+                binding.r1c1, binding.r1c2, binding.r2c0, binding.r2c1, binding.r2c2};
 
-        grid = findViewById(R.id.grid);
-        gameBlocks = new ImageView[]{findViewById(R.id.r0c0), findViewById(R.id.r0c1), findViewById(R.id.r0c2),
-                findViewById(R.id.r1c0), findViewById(R.id.r1c1), findViewById(R.id.r1c2),
-                findViewById(R.id.r2c0), findViewById(R.id.r2c1), findViewById(R.id.r2c2)};
-
-        strikes = new TextView[]{findViewById(R.id.col_0_strike), findViewById(R.id.col_1_strike),
-                findViewById(R.id.col_2_strike), findViewById(R.id.row_0_strike),
-                findViewById(R.id.row_1_strike), findViewById(R.id.row_2_strike),
-                findViewById(R.id.primary_diagonal_strike), findViewById(R.id.secondary_diagonal_strike)};
-
-        scoreSection = findViewById(R.id.scoreSection);
-        yourScoreLabelTV = findViewById(R.id.your_label);
-        yourScoreTV = findViewById(R.id.your_score);
-        opponentScoreLabelTV = findViewById(R.id.opponent_label);
-        opponentScoreTV = findViewById(R.id.opponent_score);
-        resetButton = findViewById(R.id.reset);
-
-        adView = findViewById(R.id.adView);
+        strikes = new TextView[]{binding.col0Strike, binding.col1Strike, binding.col2Strike,
+                binding.row0Strike, binding.row1Strike, binding.row2Strike,
+                binding.primaryDiagonalStrike, binding.secondaryDiagonalStrike};
 
         configureWidgetVisibility();
     }
@@ -137,7 +118,7 @@ public class GamePlayActivity extends AppCompatActivity {
         for (TextView strike : strikes) {
             strike.setVisibility(View.GONE);
         }
-        scoreSection.setVisibility(View.INVISIBLE);
+        binding.scoreSection.setVisibility(View.INVISIBLE);
     }
 
 
@@ -230,35 +211,35 @@ public class GamePlayActivity extends AppCompatActivity {
         // if action == 2, player O won
         // else all blocks are filled, Draw game
         if (action == 1) {
-            headingTV.setText(playWithAI ? R.string.you_won : R.string.player_x_won);
+            binding.heading.setText(playWithAI ? R.string.you_won : R.string.player_x_won);
             xVictoryCount++;
         } else if (action == 2) {
-            headingTV.setText(playWithAI ? R.string.ai_won : R.string.player_o_won);
+            binding.heading.setText(playWithAI ? R.string.ai_won : R.string.player_o_won);
             oVictoryCount++;
         } else if (action == 0)
-            headingTV.setText(R.string.draw_game);
+            binding.heading.setText(R.string.draw_game);
 
-        scoreSection.setVisibility(View.VISIBLE);
-        yourScoreTV.setText(String.valueOf(xVictoryCount));
-        yourScoreLabelTV.setText(playWithAI ? R.string.you : R.string.player_x);
-        opponentScoreTV.setText(String.valueOf(oVictoryCount));
-        opponentScoreLabelTV.setText(playWithAI ? R.string.ai : R.string.player_o);
+        binding.scoreSection.setVisibility(View.VISIBLE);
+        binding.yourLabel.setText(String.valueOf(xVictoryCount));
+        binding.yourScore.setText(playWithAI ? R.string.you : R.string.player_x);
+        binding.opponentLabel.setText(String.valueOf(oVictoryCount));
+        binding.opponentScore.setText(playWithAI ? R.string.ai : R.string.player_o);
 
         if (xVictoryCount > oVictoryCount) {
-            yourScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
-            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            binding.yourLabel.setTypeface(null, Typeface.BOLD_ITALIC);
+            binding.opponentLabel.setTypeface(null, Typeface.NORMAL);
         } else if (xVictoryCount < oVictoryCount) {
-            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
-            opponentScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
+            binding.yourLabel.setTypeface(null, Typeface.NORMAL);
+            binding.opponentLabel.setTypeface(null, Typeface.BOLD_ITALIC);
         } else {
-            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
-            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            binding.yourLabel.setTypeface(null, Typeface.NORMAL);
+            binding.opponentLabel.setTypeface(null, Typeface.NORMAL);
         }
     }
 
     public void aiChance() {
         disableAllBlocks();
-        resetButton.setEnabled(false);
+        binding.reset.setEnabled(false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -277,7 +258,7 @@ public class GamePlayActivity extends AppCompatActivity {
 
                 makeMove(gameBlocks[3 * row + column], row, column);
                 enableAllEmptyBlocks();
-                resetButton.setEnabled(true);
+                binding.reset.setEnabled(true);
             }
         }, 400);
     }
@@ -330,21 +311,21 @@ public class GamePlayActivity extends AppCompatActivity {
     // handle UI functionality
     public void changeHeading() {
         if (playerXChance) {
-            headingTV.setText(playWithAI ? R.string.your_chance : R.string.x_chance);
+            binding.heading.setText(playWithAI ? R.string.your_chance : R.string.x_chance);
         } else {
-            headingTV.setText(playWithAI ? R.string.ai_chance : R.string.o_chance);
+            binding.heading.setText(playWithAI ? R.string.ai_chance : R.string.o_chance);
         }
     }
 
     public void setGridSize() {
-        int height = grid.getMeasuredHeight();
-        int width = grid.getMeasuredWidth();
-        int min = (width < height) ? width : height;
+        int height = binding.grid.getMeasuredHeight();
+        int width = binding.grid.getMeasuredWidth();
+        int min = Math.min(width, height);
 
-        ViewGroup.LayoutParams layoutParams = grid.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = binding.grid.getLayoutParams();
         layoutParams.height = min;
         layoutParams.width = min;
-        grid.setLayoutParams(layoutParams);
+        binding.grid.setLayoutParams(layoutParams);
     }
 
     public void disableAllBlocks() {
@@ -414,7 +395,7 @@ public class GamePlayActivity extends AppCompatActivity {
     }
 
     public void manageAds() {
-        adView.loadAd(new AdRequest.Builder().build());
+        binding.adView.loadAd(new AdRequest.Builder().build());
     }
 
 }

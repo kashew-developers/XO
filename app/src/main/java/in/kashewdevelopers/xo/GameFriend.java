@@ -2,7 +2,6 @@ package in.kashewdevelopers.xo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -11,14 +10,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import in.kashewdevelopers.xo.databinding.ActivityGamePlayBinding;
 
 public class GameFriend extends AppCompatActivity {
 
@@ -44,16 +42,11 @@ public class GameFriend extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
+    ActivityGamePlayBinding binding;
+
     // widgets
-    TextView headingTV;
     ImageView[] gameBlocks;
     TextView[] strikes;
-    ConstraintLayout scoreSection, grid;
-    TextView yourScoreLabelTV, yourScoreTV;
-    TextView opponentScoreLabelTV, opponentScoreTV;
-    Button resetButton;
-    RelativeLayout progressBar;
-    AdView adView;
 
     private int numberOfMovesPlayed = 0, creatorVictoryCount = 0, joineeVictoryCount = 0;
     public int STRIKE_ROW = 0, STRIKE_COLUMN = 1, STRIKE_DIAGONAL = 2;
@@ -67,7 +60,8 @@ public class GameFriend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_play);
+        binding = ActivityGamePlayBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         initialization();
         manageAds();
@@ -127,27 +121,12 @@ public class GameFriend extends AppCompatActivity {
     }
 
     public void initializeWidgets() {
-        headingTV = findViewById(R.id.heading);
+        gameBlocks = new ImageView[]{binding.r0c0, binding.r0c1, binding.r0c2, binding.r1c0,
+                binding.r1c1, binding.r1c2, binding.r2c0, binding.r2c1, binding.r2c2};
 
-        grid = findViewById(R.id.grid);
-        gameBlocks = new ImageView[]{findViewById(R.id.r0c0), findViewById(R.id.r0c1), findViewById(R.id.r0c2),
-                findViewById(R.id.r1c0), findViewById(R.id.r1c1), findViewById(R.id.r1c2),
-                findViewById(R.id.r2c0), findViewById(R.id.r2c1), findViewById(R.id.r2c2)};
-
-        strikes = new TextView[]{findViewById(R.id.col_0_strike), findViewById(R.id.col_1_strike),
-                findViewById(R.id.col_2_strike), findViewById(R.id.row_0_strike),
-                findViewById(R.id.row_1_strike), findViewById(R.id.row_2_strike),
-                findViewById(R.id.primary_diagonal_strike), findViewById(R.id.secondary_diagonal_strike)};
-
-        scoreSection = findViewById(R.id.scoreSection);
-        yourScoreLabelTV = findViewById(R.id.your_label);
-        yourScoreTV = findViewById(R.id.your_score);
-        opponentScoreLabelTV = findViewById(R.id.opponent_label);
-        opponentScoreTV = findViewById(R.id.opponent_score);
-        resetButton = findViewById(R.id.reset);
-        progressBar = findViewById(R.id.progress);
-
-        adView = findViewById(R.id.adView);
+        strikes = new TextView[]{binding.col0Strike, binding.col1Strike, binding.col2Strike,
+                binding.row0Strike, binding.row1Strike, binding.row2Strike,
+                binding.primaryDiagonalStrike, binding.secondaryDiagonalStrike};
 
         configureWidgetVisibility();
     }
@@ -156,7 +135,7 @@ public class GameFriend extends AppCompatActivity {
         for (TextView strike : strikes) {
             strike.setVisibility(View.GONE);
         }
-        scoreSection.setVisibility(View.INVISIBLE);
+        binding.scoreSection.setVisibility(View.INVISIBLE);
     }
 
     public void initializeDbElements() {
@@ -244,13 +223,13 @@ public class GameFriend extends AppCompatActivity {
                     makeMove(gameBlocks[gameRoom.movePlayed], r, c, false);
                 }
             }
-            resetButton.setVisibility(View.VISIBLE);
+            binding.reset.setVisibility(View.VISIBLE);
             return;
         }
 
         // newGame = True, when any one player Resets the games
         if (gameRoom.newGame) {
-            resetButton.setVisibility(View.INVISIBLE);
+            binding.reset.setVisibility(View.INVISIBLE);
             numberOfMovesPlayed = 0;
             board = new int[3][3];
             for (ImageView block : gameBlocks) {
@@ -358,42 +337,42 @@ public class GameFriend extends AppCompatActivity {
         // if action == 2, player O won
         // else all blocks are filled, Draw game
         if (action == 1) {
-            headingTV.setText(createdGame ? getString(R.string.you_won) :
+            binding.heading.setText(createdGame ? getString(R.string.you_won) :
                     String.format(getString(R.string.someone_won), gameRoom.creatorName));
             creatorVictoryCount++;
         } else if (action == 2) {
-            headingTV.setText(createdGame ?
+            binding.heading.setText(createdGame ?
                     String.format(getString(R.string.someone_won), gameRoom.joineeName) :
                     getString(R.string.you_won));
             joineeVictoryCount++;
         } else if (action == 0)
-            headingTV.setText(R.string.draw_game);
+            binding.heading.setText(R.string.draw_game);
 
-        scoreSection.setVisibility(View.VISIBLE);
-        yourScoreTV.setText(String.valueOf(createdGame ? creatorVictoryCount : joineeVictoryCount));
-        yourScoreLabelTV.setText(createdGame ? gameRoom.creatorName : gameRoom.joineeName);
-        opponentScoreTV.setText(String.valueOf(createdGame ? joineeVictoryCount : creatorVictoryCount));
-        opponentScoreLabelTV.setText(createdGame ? gameRoom.joineeName : gameRoom.creatorName);
+        binding.scoreSection.setVisibility(View.VISIBLE);
+        binding.yourScore.setText(String.valueOf(createdGame ? creatorVictoryCount : joineeVictoryCount));
+        binding.yourLabel.setText(createdGame ? gameRoom.creatorName : gameRoom.joineeName);
+        binding.opponentScore.setText(String.valueOf(createdGame ? joineeVictoryCount : creatorVictoryCount));
+        binding.opponentLabel.setText(createdGame ? gameRoom.joineeName : gameRoom.creatorName);
 
         int yourScore = (createdGame ? creatorVictoryCount : joineeVictoryCount);
         int opponentScore = (createdGame ? joineeVictoryCount : creatorVictoryCount);
 
         if (yourScore > opponentScore) {
-            yourScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
-            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            binding.yourLabel.setTypeface(null, Typeface.BOLD_ITALIC);
+            binding.opponentLabel.setTypeface(null, Typeface.NORMAL);
         } else if (yourScore < opponentScore) {
-            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
-            opponentScoreLabelTV.setTypeface(null, Typeface.BOLD_ITALIC);
+            binding.yourLabel.setTypeface(null, Typeface.NORMAL);
+            binding.opponentLabel.setTypeface(null, Typeface.BOLD_ITALIC);
         } else {
-            yourScoreLabelTV.setTypeface(null, Typeface.NORMAL);
-            opponentScoreLabelTV.setTypeface(null, Typeface.NORMAL);
+            binding.yourLabel.setTypeface(null, Typeface.NORMAL);
+            binding.opponentLabel.setTypeface(null, Typeface.NORMAL);
         }
 
-        resetButton.setVisibility(View.VISIBLE);
+        binding.reset.setVisibility(View.VISIBLE);
     }
 
     public void uploadMove(final ImageView block, final int r, final int c) {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progress.setVisibility(View.VISIBLE);
 
         board[r][c] = createdGame ? 1 : 2;
         numberOfMovesPlayed++;
@@ -411,7 +390,7 @@ public class GameFriend extends AppCompatActivity {
                         board[r][c] = 0;
                         numberOfMovesPlayed--;
                         makeMove(block, r, c, true);
-                        progressBar.setVisibility(View.GONE);
+                        binding.progress.setVisibility(View.GONE);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -419,7 +398,7 @@ public class GameFriend extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         board[r][c] = 0;
                         numberOfMovesPlayed--;
-                        progressBar.setVisibility(View.GONE);
+                        binding.progress.setVisibility(View.GONE);
                         Toast.makeText(GameFriend.this, "Network Error, please try again",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -432,7 +411,7 @@ public class GameFriend extends AppCompatActivity {
         String heading = (createdGame == gameRoom.creatorChance) ? "Your" :
                 (createdGame ? gameRoom.joineeName : gameRoom.creatorName);
         heading += " (" + (gameRoom.creatorChance ? "X" : "O") + ") chance";
-        headingTV.setText(heading);
+        binding.heading.setText(heading);
     }
 
     public void disableAllBlocks() {
@@ -475,7 +454,7 @@ public class GameFriend extends AppCompatActivity {
     }
 
     public void onResetClicked(View v) {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progress.setVisibility(View.VISIBLE);
 
         Map<String, Object> resetData = new HashMap<>();
         resetData.put("gameFinished", false);
@@ -487,13 +466,13 @@ public class GameFriend extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        progressBar.setVisibility(View.GONE);
+                        binding.progress.setVisibility(View.GONE);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressBar.setVisibility(View.GONE);
+                        binding.progress.setVisibility(View.GONE);
                         Toast.makeText(GameFriend.this, "Error Resetting, please try again",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -501,7 +480,7 @@ public class GameFriend extends AppCompatActivity {
     }
 
     public void manageAds() {
-        adView.loadAd(new AdRequest.Builder().build());
+        binding.adView.loadAd(new AdRequest.Builder().build());
     }
 
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
 
@@ -103,8 +104,15 @@ class AuthenticateUser : AppCompatActivity() {
             show()
         }
 
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60,
-                TimeUnit.SECONDS, this, mCallBack)
+        val phoneAuthOptions = PhoneAuthOptions.newBuilder(auth)
+                .setPhoneNumber(phoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setCallbacks(mCallBack)
+                .setActivity(this)
+                .build()
+
+        PhoneAuthProvider.verifyPhoneNumber(phoneAuthOptions)
+
     }
 
     private fun undoOtpProcess() {

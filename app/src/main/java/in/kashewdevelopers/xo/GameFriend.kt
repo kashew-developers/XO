@@ -408,9 +408,10 @@ class GameFriend : AppCompatActivity() {
         //// if a block is clicked, find which block was clicked
         //// send that blocks view & coordinates to makeMove method
         var index = 0
-        gameBlocks.forEach {
-            if (it.id != clickedBlock.id)
-                index++
+        for (block in gameBlocks) {
+            if (block.id == clickedBlock.id)
+                break
+            index++
         }
 
         val row = index / 3

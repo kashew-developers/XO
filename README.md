@@ -1,5 +1,9 @@
 # X & O
 
+<a href="https://play.google.com/store/apps/details?id=in.kashewdevelopers.xo"><img src="media/google-play-store-logo.png" width="150px" /></a>
+
+----
+
 <table>
     <tr>
         <th>Title</th>

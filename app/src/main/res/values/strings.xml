@@ -21,6 +21,7 @@
     <string name="developer">Kashew Developers</string>
     <string name="open_source_label">this is an open source application,\nyou can find its source code at:</string>
     <string name="github_link"><u><i>XO - GitHub</i></u></string>
+    <string name="github_url">http://www.github.com/kashew-developers/XO</string>
 
     <!-- labels -->
     <string name="authenticate">Verify your phone number to play with friends</string>

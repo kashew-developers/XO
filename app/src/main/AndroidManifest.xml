@@ -21,6 +21,7 @@
         <activity android:name=".AboutActivity" />
         <activity
             android:name=".GamePlayActivity"
+            android:theme="@style/AppThemeTranslucentStatus"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

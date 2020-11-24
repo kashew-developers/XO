@@ -154,7 +154,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     private fun evaluate(cut: Boolean): Int {
         // Check Rows
-        for (i in 0..3) {
+        for (i in 0..2) {
             if (board[i][0] != 0 && equals(board[i][0], board[i][1], board[i][2])) {
                 if (cut) makeCuts(StrikeType.ROW, i)
                 return board[i][0]
@@ -179,10 +179,7 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         // Draw Game
-        if (numberOfMovesPlayed == 9)
-            return 0
-
-        return -1
+        return if (numberOfMovesPlayed == 9) 0 else -1
     }
 
     private fun equals(a: Int, b: Int, c: Int): Boolean = (a == b && b == c)
@@ -327,17 +324,18 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun enableAllEmptyBlocks() {
-        for (block in gameBlocks) {
-            block.tag?.let { block.isClickable = true }
+        gameBlocks.forEach {
+            if (it.tag == null) {
+                it.isClickable = true
+            }
         }
     }
 
     private fun makeCuts(strikeType: StrikeType, strikeIndex: Int) {
-        var index = 0
-        if (strikeType == StrikeType.ROW) {
-            index = strikeIndex + 3
-        } else if (strikeType == StrikeType.DIAGONAL) {
-            index = strikeIndex + 6
+        val index = when (strikeType) {
+            StrikeType.ROW -> strikeIndex + 3
+            StrikeType.DIAGONAL -> strikeIndex + 6
+            else -> strikeIndex
         }
 
         strikes[index].visibility = View.VISIBLE

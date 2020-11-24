@@ -388,8 +388,8 @@ class GameFriend : AppCompatActivity() {
     }
 
     private fun enableAllEmptyBlocks() {
-        gameBlocks.forEach { block ->
-            block.tag?.let { block.isClickable = true }
+        gameBlocks.forEach {
+            if (it.tag == null) it.isClickable = true
         }
     }
 
@@ -397,7 +397,7 @@ class GameFriend : AppCompatActivity() {
         val index = when (strikeType) {
             StrikeType.ROW -> strikeIndex + 3
             StrikeType.DIAGONAL -> strikeIndex + 6
-            else -> 0
+            else -> strikeIndex
         }
         strikes[index].visibility = View.VISIBLE
     }

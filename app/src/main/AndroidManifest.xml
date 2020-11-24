@@ -11,22 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id" />
-
         <activity android:name=".AuthenticateUser" />
         <activity android:name=".GameFriend" />
         <activity android:name=".GameCreateJoin" />
         <activity android:name=".AboutActivity" />
         <activity
             android:name=".GamePlayActivity"
-            android:theme="@style/AppThemeTranslucentStatus"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeTranslucentStatus" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

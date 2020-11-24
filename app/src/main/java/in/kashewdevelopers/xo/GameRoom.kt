@@ -1,11 +1,11 @@
 package `in`.kashewdevelopers.xo
 
 data class GameRoom(var creatorChance: Boolean,
-                    var creatorName: String,
-                    var joineeName: String,
-                    var movePlayed: Int) {
+                    var creatorName: String?,
+                    var joineeName: String?,
+                    var movePlayed: Int?) {
 
-    var leftGame: Boolean = false
+    var leftGame: Boolean? = null
     var newGame: Boolean = false
     var gameFinished: Boolean = false
 
